@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Vaccination Booking</title>
+    <style>
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px) scale(0.9); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Global Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            text-align: center;
+            padding: 40px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Glassmorphism Container */
+        .container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            width: 100%;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Form Elements */
+        .form-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 5px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input:focus, select:focus {
+            border-color: #fff;
+            transform: scale(1.05);
+        }
+
+        /* Floating Label Effect */
+        .form-group label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        input:focus + label, input:not(:placeholder-shown) + label {
+            top: -8px;
+            left: 10px;
+            font-size: 12px;
+            color: white;
+        }
+
+        /* Button Ripple Effect */
+        .btn {
+            position: relative;
+            background: #ff4081;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #e91e63;
+            transform: scale(1.05);
+        }
+
+        .btn:active::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            animation: ripple 0.6s linear;
+        }
+
+        /* Confirmation Message */
+        #confirmationMessage {
+            display: none;
+            color: white;
+            font-weight: bold;
+            margin-top: 15px;
+            background: rgba(0, 255, 127, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="color: white;">🐶 Book a Vaccination Appointment</h2>
+        <form id="bookingForm">
+            <div class="form-group">
+                <input type="text" id="ownerName" placeholder=" " required>
+                <label for="ownerName">Owner's Name</label>
+            </div>
+            <div class="form-group">
+                <input type="text" id="dogName" placeholder=" " required>
+                <label for="dogName">Pet's Breed</label>
+            </div>
+            <div class="form-group">
+                <input type="text" id="location" placeholder=" " required>
+                <label for="location">Your Location</label>
+            </div>
+            <button type="button" class="btn" onclick="getLocation()">📍 Detect My Location</button>
+            <div class="form-group">
+                <select id="clinicSelect">
+                    <option value="">Select Nearest Clinic</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="date" id="appointmentDate" required>
+            </div>
+            <button type="submit" class="btn">📅 Book Appointment</button>
+        </form>
+        <p id="confirmationMessage"></p>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const clinics = ["Happy Paws Vet Clinic", "City Pet Care Center", "Animal Wellness Hospital"];
+            const clinicSelect = document.getElementById("clinicSelect");
+            clinics.forEach(clinic => {
+                let option = document.createElement("option");
+                option.value = clinic;
+                option.textContent = clinic;
+                clinicSelect.appendChild(option);
+            });
+        });
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById("location").value = `Lat: ${position.coords.latitude}, Lon: ${position.coords.longitude}`;
+                }, function() {
+                    alert("Location access denied. Please enter manually.");
+                });
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+
+        document.getElementById("bookingForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const ownerName = document.getElementById("ownerName").value;
+            const dogName = document.getElementById("dogName").value;
+            const location = document.getElementById("location").value;
+            const clinic = document.getElementById("clinicSelect").value;
+            const appointmentDate = document.getElementById("appointmentDate").value;
+
+            if (!clinic) {
+                alert("Please select a clinic.");
+                return;
+            }
+
+            const confirmationMessage = document.getElementById("confirmationMessage");
+            confirmationMessage.textContent = 
+                `✅ Appointment confirmed for ${dogName} (Owner: ${ownerName}) at ${clinic} on ${appointmentDate}.`;
+            confirmationMessage.style.display = "block";
+        });
+    </script>
+</body>
+</html>

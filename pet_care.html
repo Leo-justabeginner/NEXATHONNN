@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Care Course | Neighborhood Safety</title>
+    <style>
+        /* General Page Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://static.vecteezy.com/system/resources/previews/049/855/391/non_2x/nature-background-high-resolution-wallpaper-for-a-serene-and-stunning-view-free-photo.jpg') no-repeat center center/cover;
+            animation: bg-animation 10s infinite alternate ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Background Animation */
+        @keyframes bg-animation {
+            0% { background-position: center top; }
+            100% { background-position: center bottom; }
+        }
+
+        /* Container with Glassy Effect */
+        .container {
+            max-width: 800px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+            color: black;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Headings & Text */
+        h1, h2, h3 {
+            color:black;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+            color: black;
+        }
+
+        /* Contact Section */
+        .contact {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            color: black;
+        }
+
+        .contact p {
+            color: black;
+            font-weight: bold;
+        }
+
+        /* Enroll Button */
+        .enroll-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: black;
+            transition: background 0.3s ease, transform 0.2s;
+        }
+
+        .enroll-btn:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* Enrolled State */
+        .enrolled {
+            background: #4CAF50 !important;
+            color: white !important;
+            transform: scale(1.1);
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐾 Pet Care Course 🐾</h1>
+        <h2>Comprehensive Pet Care Education</h2>
+        
+        <h3>📖 Service Description</h3>
+        <p>Join our comprehensive course to learn all aspects of pet care. From feeding to grooming and safety tips, get equipped with the knowledge to ensure your pet's well-being.</p>
+
+        <button class="enroll-btn" onclick="enrollNow(this)">Enroll Now</button>
+        
+        <div class="contact">
+            <h3>📍 Contact Details</h3>
+            <p><strong>Address:</strong> Bandra Street, 6th Floor, Mumbai</p>
+            <p><strong>📞 Phone:</strong> 123-456-7890</p>
+            <p><strong>📧 Email:</strong> XXXX@gmail.com</p>
+        </div>
+    </div>
+
+    <script>
+        function enrollNow(button) {
+            button.textContent = "Enroll Successful ✅";
+            button.classList.add("enrolled");
+            button.disabled = true;
+        }
+    </script>
+</body>
+</html>

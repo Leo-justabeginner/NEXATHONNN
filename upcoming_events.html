@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Pet Events</title>
+    <style>
+        /* Background Styling with Zoom-in Animation */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: url('https://static.vecteezy.com/system/resources/previews/049/855/391/non_2x/nature-background-high-resolution-wallpaper-for-a-serene-and-stunning-view-free-photo.jpg') no-repeat center center/cover;
+            animation: zoomBackground 15s infinite alternate ease-in-out;
+        }
+
+        @keyframes zoomBackground {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        h1 {
+            color: black;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Event Container */
+        .event-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Glassy Card Effect */
+        .event-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            text-align: center;
+            color: black;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .event-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .event-card p {
+            font-size: 1rem;
+            margin: 5px 0;
+        }
+
+        /* Book Tickets Button */
+        .book-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            font-size: 1rem;
+            background-color: rgba(255, 255, 255, 0.3);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color:black;
+            transition: background 0.3s ease, transform 0.2s;
+        }
+
+        .book-btn:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* Button Animation on Click */
+        .booked {
+            background: #4CAF50 !important;
+            color: black !important;
+            transform: scale(1.1);
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+    <h1>🐾 Upcoming Pet Fairs & Expos 🐾</h1>
+    <div class="event-container">
+        <div class="event-card">
+            <h3>National Pet Expo</h3>
+            <p><strong>Date:</strong> March 15, 2025</p>
+            <p><strong>Location:</strong> Los Angeles, CA</p>
+            <p>A fun-filled event with pet adoptions, vendors, and live shows.</p>
+            <button class="book-btn" onclick="bookTicket(this)">Book Tickets</button>
+        </div>
+        <div class="event-card">
+            <h3>Pet Lovers Fair</h3>
+            <p><strong>Date:</strong> April 10, 2025</p>
+            <p><strong>Location:</strong> Chicago, IL</p>
+            <p>Join us for a day of pet-friendly activities and workshops.</p>
+            <button class="book-btn" onclick="bookTicket(this)">Book Tickets</button>
+        </div>
+        <div class="event-card">
+            <h3>Annual Pet Festival</h3>
+            <p><strong>Date:</strong> May 20, 2025</p>
+            <p><strong>Location:</strong> New York, NY</p>
+            <p>Celebrate pets with contests, exhibits, and more!</p>
+            <button class="book-btn" onclick="bookTicket(this)">Book Tickets</button>
+        </div>
+    </div>
+
+    <script>
+        function bookTicket(button) {
+            button.textContent = "Booked ✅";
+            button.classList.add("booked");
+            button.disabled = true;
+        }
+    </script>
+</body>
+</html>

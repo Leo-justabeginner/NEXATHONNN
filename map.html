@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map with Animated Labels & Index</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Background styling */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://static.vecteezy.com/system/resources/previews/049/855/391/non_2x/nature-background-high-resolution-wallpaper-for-a-serene-and-stunning-view-free-photo.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Map container */
+        #map-container {
+            width: 80%;
+            max-width: 900px;
+            height: 550px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            padding: 10px;
+            position: relative;
+        }
+
+        /* Map itself */
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        /* Label Styling */
+        .map-label {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 5px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            white-space: nowrap;
+            transform: translate(-50%, -100%);
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* Pet Index */
+        #index-box {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .index-item {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .red { background: red; }
+        .orange { background: orange; }
+        .yellow { background: yellow; }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center; color: white;">People and Their Pets</h2>
+    <div id="map-container">
+        <div id="map"></div>
+    </div>
+
+    <!-- Index Box for Colors -->
+    <div id="index-box">
+        <div class="index-item"><span class="dot red"></span> Dog (10)</div>
+        <div class="index-item"><span class="dot orange"></span> Cat (10)</div>
+        <div class="index-item"><span class="dot yellow"></span> Rabbit (6)</div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([20.5937, 78.9629], 5); // Centered on India
+
+        // Load OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // List of people and their pets
+        let peopleWithPets = [
+            { label: "A", name: "Alice", pet: "Dog", age: 25, lat: 28.7041, lon: 77.1025 },
+            { label: "B", name: "Bob", pet: "Dog", age: 30, lat: 19.0760, lon: 72.8777 },
+            { label: "C", name: "Charlie", pet: "Dog", age: 22, lat: 12.9716, lon: 77.5946 },
+            { label: "D", name: "David", pet: "Dog", age: 28, lat: 13.0827, lon: 80.2707 },
+            { label: "E", name: "Emma", pet: "Dog", age: 35, lat: 22.5726, lon: 88.3639 },
+
+            { label: "K", name: "Kevin", pet: "Cat", age: 27, lat: 28.5355, lon: 77.3910 },
+            { label: "L", name: "Lily", pet: "Cat", age: 26, lat: 22.7196, lon: 75.8577 },
+            { label: "M", name: "Mia", pet: "Cat", age: 29, lat: 19.2183, lon: 72.9781 },
+            { label: "N", name: "Nathan", pet: "Cat", age: 32, lat: 13.3409, lon: 77.1016 },
+
+            { label: "U", name: "Umar", pet: "Rabbit", age: 31, lat: 29.4727, lon: 77.7085 },
+            { label: "V", name: "Vera", pet: "Rabbit", age: 24, lat: 23.3441, lon: 85.3096 },
+            { label: "W", name: "Walter", pet: "Rabbit", age: 29, lat: 27.1767, lon: 78.0081 }
+        ];
+
+        // Add markers with colors based on pet type
+        peopleWithPets.forEach(person => {
+            let color;
+            if (person.pet === "Dog") color = "red";
+            else if (person.pet === "Cat") color = "orange";
+            else if (person.pet === "Rabbit") color = "yellow";
+
+            // Create circle marker
+            let marker = L.circleMarker([person.lat, person.lon], {
+                radius: 8,
+                color: color,
+                fillColor: color,
+                fillOpacity: 0.9
+            }).addTo(map)
+              .bindPopup(`<b>${person.label}</b>: ${person.name}<br>Pet: ${person.pet}<br>Age: ${person.age}`);
+
+            // Create label above the marker
+            let label = L.divIcon({
+                className: 'map-label',
+                html: `${person.name} (${person.age})`,
+                iconSize: [50, 20] // Width and height of label
+            });
+
+            // Add label as a marker at slightly higher latitude (above the dot)
+            L.marker([person.lat + 0.2, person.lon], { icon: label }).addTo(map);
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Safety Chatbot</title>
+    <style>
+        /* Background animation */
+        body {
+            background: linear-gradient(45deg, #000428, #004e92);
+            background-size: 400% 400%;
+            animation: backgroundAnimation 10s infinite alternate;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        @keyframes backgroundAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Chatbot icon */
+        #chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 102, 255, 0.8);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        #chat-icon:hover {
+            background: rgba(0, 102, 255, 1);
+            transform: scale(1.1);
+        }
+
+        /* Chatbot box */
+        #chatbox {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 320px;
+            height: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            display: none;
+            flex-direction: column;
+            padding: 15px;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Chatbot header */
+        #chat-header {
+            background: linear-gradient(45deg, #007BFF, #00d4ff);
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0;
+        }
+
+        /* Chat content */
+        #chat-content {
+            flex-grow: 1;
+            padding: 10px;
+            font-size: 14px;
+            overflow-y: auto;
+            color: white;
+        }
+
+        /* Chatbot options */
+        .option {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            margin: 5px 0;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 5px;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        /* Voice button */
+        #voice-btn {
+            background: #28a745;
+            color: white;
+            padding: 8px;
+            margin-top: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        #voice-btn:hover {
+            background: #218838;
+        }
+
+        /* Close button */
+        #close-chat {
+            text-align: center;
+            color: red;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Chatbot icon -->
+    <div id="chat-icon" onclick="toggleChat()">💬</div>
+
+    <!-- Chatbot box -->
+    <div id="chatbox">
+        <div id="chat-header">Pet Safety Bot</div>
+        <div id="chat-content"></div>
+        <div id="voice-btn" onclick="startVoiceRecognition()">🎤 Speak a Question</div>
+        <div id="close-chat" onclick="closeChat()">❌ Close</div>
+    </div>
+
+    <script>
+        let chatbox = document.getElementById("chatbox");
+        let chatContent = document.getElementById("chat-content");
+
+        // Toggle chatbox visibility
+        function toggleChat() {
+            if (chatbox.style.display === "none" || chatbox.style.display === "") {
+                chatbox.style.display = "flex";
+                chatContent.innerHTML = `<p>🤖 How can I assist you?</p>`;
+                showOptions();
+            } else {
+                chatbox.style.display = "none";
+            }
+        }
+
+        // Show question options
+        function showOptions() {
+            let options = [
+                "How to keep my pet safe at home?",
+                "What food is dangerous for pets?",
+                "How to handle pet emergencies?",
+                "What are signs of a sick pet?"
+            ];
+           
+            options.forEach((question, index) => {
+                let optionDiv = document.createElement("div");
+                optionDiv.classList.add("option");
+                optionDiv.innerText = question;
+                optionDiv.onclick = () => handleQuestion(index);
+                chatContent.appendChild(optionDiv);
+            });
+        }
+
+        // Handle user selection
+        function handleQuestion(index) {
+            let answers = [
+                "Ensure your pet’s safety by removing toxic plants, securing windows, and keeping harmful items out of reach.",
+                "Avoid giving your pet chocolate, onions, grapes, or caffeine as they can be toxic.",
+                "In an emergency, stay calm, check your pet’s breathing, and contact a vet immediately.",
+                "Lethargy, vomiting, loss of appetite, and behavioral changes are common signs of sickness."
+            ];
+
+            let userQuestion = document.getElementsByClassName("option")[index].innerText;
+            chatContent.innerHTML += `<p><b>You:</b> ${userQuestion}</p>`;
+            chatContent.innerHTML += `<p>🤖 ${answers[index]}</p>`;
+
+            speak(answers[index]); // Speak the response
+            askContinue();
+        }
+
+        // Ask to continue
+        function askContinue() {
+            let continueDiv = document.createElement("div");
+            continueDiv.innerHTML = `
+                <p>🤖 Do you have another question?</p>
+                <div class="option" onclick="showOptions()">Yes</div>
+                <div class="option" onclick="closeChat()">No</div>
+            `;
+            chatContent.appendChild(continueDiv);
+        }
+
+        // Close chat
+        function closeChat() {
+            chatbox.style.display = "none";
+        }
+
+        // Voice recognition feature
+        function startVoiceRecognition() {
+            if (!('webkitSpeechRecognition' in window)) {
+                alert("Your browser does not support speech recognition. Try using Google Chrome.");
+                return;
+            }
+
+            let recognition = new webkitSpeechRecognition();
+            recognition.lang = "en-US";
+            recognition.start();
+
+            recognition.onstart = function() {
+                chatContent.innerHTML += `<p>🎤 Listening...</p>`;
+            };
+
+            recognition.onresult = function(event) {
+                let spokenText = event.results[0][0].transcript.toLowerCase();
+                chatContent.innerHTML += `<p><b>You:</b> ${spokenText}</p>`;
+
+                let questions = [
+                    "keep my pet safe", "dangerous food", "pet emergencies", "signs of a sick pet"
+                ];
+
+                let index = questions.findIndex(q => spokenText.includes(q));
+                if (index !== -1) {
+                    handleQuestion(index);
+                } else {
+                    let response = "Sorry, I didn’t understand that.";
+                    chatContent.innerHTML += `<p>🤖 ${response}</p>`;
+                    speak(response);
+                }
+            };
+
+            recognition.onerror = function() {
+                chatContent.innerHTML += `<p>❌ Speech recognition failed. Try again.</p>`;
+            };
+        }
+
+        // Text-to-speech function
+        function speak(text) {
+            let speech = new SpeechSynthesisUtterance(text);
+            speech.lang = "en-US";
+            speech.rate = 1;
+            speech.pitch = 1;
+            speech.volume = 1;
+            speechSynthesis.speak(speech);
+        }
+    </script>
+
+</body>
+</html>

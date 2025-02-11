@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found Complaints</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: auto;
+        }
+        input, textarea, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Lost & Found Complaints</h2>
+        <form id="complaintForm">
+            
+            <input type="text" id="contact" placeholder="Contact Info" required>
+            <select id="category">
+                <option value="">Select Category</option>
+                <option value="Lost">Lost</option>
+                <option value="Found">Found</option>
+            </select>
+            <textarea id="description" placeholder="Describe the item/situation" rows="4" required></textarea>
+            <button type="submit">Submit Complaint</button>
+        </form>
+        <p id="confirmationMessage" style="display: none; color: green;"></p>
+    </div>
+
+    <script>
+        document.getElementById("complaintForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const name = document.getElementById("name").value;
+            const contact = document.getElementById("contact").value;
+            const category = document.getElementById("category").value;
+            const description = document.getElementById("description").value;
+
+            if (!category) {
+                alert("Please select a category.");
+                return;
+            }
+
+            document.getElementById("confirmationMessage").textContent = `Your ${category.toLowerCase()} complaint has been submitted successfully.`;
+            document.getElementById("confirmationMessage").style.display = "block";
+            document.getElementById("complaintForm").reset();
+        });
+    </script>
+</body>
+</html>

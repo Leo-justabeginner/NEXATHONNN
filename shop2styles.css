@@ -1,0 +1,157 @@
+/* Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: url('https://static.vecteezy.com/system/resources/previews/049/855/391/non_2x/nature-background-high-resolution-wallpaper-for-a-serene-and-stunning-view-free-photo.jpg') no-repeat center center/cover;
+    backdrop-filter: blur(5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    color: black;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+nav {
+    margin-top: 10px;
+}
+
+nav a {
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+    margin: 0 15px;
+    transition: color 0.3s ease-in-out;
+}
+
+nav a:hover {
+    color: #ff4757;
+}
+
+/* Main Container */
+.tracker-container {
+    margin-top: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Glass Box with Black Border */
+.glass-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    border-radius: 15px;
+    padding: 25px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    color: black;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.glass-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.glass-box h2 {
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+/* Form Styles */
+form input, form button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+/* Input Fields with Black Border */
+form input {
+    background: rgba(255, 255, 255, 0.3);
+    color: black;
+    outline: none;
+}
+
+form input::placeholder {
+    color: black;
+}
+
+form input:focus {
+    background: rgba(255, 255, 255, 0.4);
+    border-color: #ff4757;
+}
+
+/* Button Styling */
+form button {
+    background: #ff4757;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out, transform 0.2s ease, box-shadow 0.3s ease-in-out;
+}
+
+form button:hover {
+    background: #e84118;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Success Message */
+.success-message {
+    background: rgba(0, 255, 0, 0.3);
+    color: black;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Lost Pets List */
+#lostPetsList {
+    text-align: left;
+    margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .tracker-container {
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    .glass-box {
+        width: 100%;
+    }
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost Pet Tracker</title>
+    <link rel="stylesheet" href="shop2styles.css">
+</head>
+<body>
+    <header>
+        <h1>Lost Pet Tracker</h1>
+        <nav>
+            <a href="one.html">Home</a>
+            <a href="one.html" onclick="logout()">Logout</a>
+        </nav>
+    </header>
+
+    <div class="tracker-container">
+        <div class="glass-box">
+            <h2>Report a Lost Pet</h2>
+            <form id="lostPetForm">
+                <input type="text" id="petName" placeholder="Pet's Name" required>
+                <input type="text" id="lastSeen" placeholder="Last Seen Location" required>
+                <input type="text" id="contact" placeholder="Your Contact Info" required>
+                <button type="submit">Report</button>
+            </form>
+        </div>
+
+        <div class="glass-box">
+            <h2>Lost Pets</h2>
+            <div id="lostPetsList"></div>
+        </div>
+    </div>
+
+    <script src="script1.js"></script>
+</body>
+</html>

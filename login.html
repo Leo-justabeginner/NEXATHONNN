@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #fce4ec;
+        }
+        .login-btn {
+            background-color: #ff6f61;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .login-btn:hover {
+            background-color: #e64a45;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .close {
+            cursor: pointer;
+            float: right;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button class="login-btn" onclick="openModal()">🐾 Login</button>
+   
+    <div id="loginModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username"><br><br>
+        <input type="password" id="password" placeholder="Password"><br><br>
+        <input type="text" id="petname" placeholder="Pet Name"><br><br>
+        <input type="text" id="category" placeholder="Category"><br><br>
+        <input type="text" id="mobile" placeholder="Mobile Number"><br><br>
+        <button class="login-btn" onclick="login()">Login</button>
+    </div>
+   
+    <script>
+        function openModal() {
+            document.getElementById("loginModal").style.display = "block";
+        }
+        function closeModal() {
+            document.getElementById("loginModal").style.display = "none";
+        }
+        function login() {
+            alert("Logging in successfully!");
+            closeModal();
+        }
+        function login2() {
+    let username = document.getElementById("username").value;
+    let password = document.getElementById("password").value;
+    let petname = document.getElementById("petname").value;
+    let category = document.getElementById("category").value;
+    let mobile = document.getElementById("mobile").value;
+
+    fetch("https://127.0.0.1:5000/register", {  // Use HTTPS if Flask runs in SSL mode
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password, petname, category, mobile })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Network response was not ok " + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert(data.message || data.error);
+        closeModal();  // Close the login modal on success
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("An error occurred: " + error.message);
+    });
+}
+    </script>
+</body>
+</html>
